@@ -69,6 +69,24 @@
     .swatch i { display:block; height:37px; border-radius:10px; margin-bottom:7px; box-shadow:inset 0 0 0 1px #0000000b; }
     .swatch.selected i { outline:2px solid var(--pink); outline-offset:3px; }
     .swatch.selected { color:var(--ink); font-weight:800; }
+    .custom-color { margin-top:20px; padding-top:18px; border-top:1px solid var(--line); }
+    .custom-color-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:11px; }
+    .custom-color-head strong { font-size:11px; }
+    .custom-color-head small { color:var(--muted); font-size:10px; }
+    .color-tools { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .color-tool { display:flex; align-items:center; gap:9px; padding:10px 11px; border:1px solid var(--line); border-radius:12px; background:#fafafd; }
+    .color-tool input[type=color] { width:30px; height:30px; padding:0; border:0; border-radius:8px; background:transparent; cursor:pointer; }
+    .color-tool code { color:var(--muted); font:600 10px "Space Grotesk"; }
+    .history-panel { margin-top:18px; padding:18px; border:1px solid var(--line); border-radius:18px; background:#fff; box-shadow:0 10px 30px #10142f05; }
+    .history-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:13px; }
+    .history-head h3 { margin:0; font-size:13px; letter-spacing:-.05em; }
+    .history-head span { color:var(--muted); font-size:10px; }
+    .history-list { display:grid; gap:8px; }
+    .history-item { display:flex; align-items:center; gap:10px; padding:9px; border-radius:12px; background:#fafafd; }
+    .history-thumb { width:38px; height:38px; flex:0 0 38px; border-radius:10px; background:linear-gradient(135deg,var(--coral),var(--pink),var(--purple)); }
+    .history-item strong { display:block; font-size:10px; }
+    .history-item small { display:block; margin-top:3px; color:var(--muted); font-size:9px; }
+    .history-item button { margin-left:auto; border:0; color:var(--pink); background:transparent; font-size:10px; font-weight:800; }
     .generate { width:100%; border:0; border-radius:14px; padding:17px; color:#fff; background:linear-gradient(100deg,var(--coral),var(--pink) 50%,var(--purple)); font-size:12px; font-weight:800; box-shadow:0 12px 25px #e02f7535; transition:.2s; }
     .generate:hover { transform:translateY(-2px); box-shadow:0 15px 30px #e02f7545; }
     .preview { position:sticky; top:25px; }
@@ -130,6 +148,13 @@
           <div class="panel">
             <div class="panel-head"><div><div class="panel-kicker">FIND YOUR MOOD</div><h2>어떤 색으로 기억되길 바라나요?</h2></div><span class="required" id="paletteName">로즈 그라데이션</span></div>
             <div class="palette" id="palette"></div>
+            <div class="custom-color">
+              <div class="custom-color-head"><strong>나만의 색 조합</strong><small>원하는 색을 직접 지정해보세요</small></div>
+              <div class="color-tools">
+                <label class="color-tool" for="colorA"><input id="colorA" type="color" value="#ff5a57" /><code id="colorAValue">#FF5A57</code></label>
+                <label class="color-tool" for="colorB"><input id="colorB" type="color" value="#6700a3" /><code id="colorBValue">#6700A3</code></label>
+              </div>
+            </div>
           </div>
           <button class="generate" id="generate" type="button">✦ 나만의 카드뉴스 만들기&nbsp; →</button>
         </section>
@@ -141,6 +166,14 @@
             <article class="card three"><div class="card-top"><span>03 · 기억에 남는 문장</span><span>3 / 3</span></div><div class="card-copy"><h3>마음이 머무는 곳에<br />좋은 하루가 피어나길</h3><p>당신을 위한 작은 선택이 시작돼요.</p></div><div class="card-foot"><span>moodly</span><span>mood for today · 03</span></div></article>
           </div>
           <div class="note">✦ <strong>SEO · AEO friendly</strong><br />사람이 검색하고, 오래 기억하는 문장으로 다듬어드려요.</div>
+          <section class="history-panel" id="historyPanel">
+            <div class="history-head"><h3>최근 히스토리</h3><span>완성된 카드뉴스 3개</span></div>
+            <div class="history-list">
+              <div class="history-item"><span class="history-thumb"></span><div><strong>조용한 휴식의 향</strong><small>코랄 핑크 · 방금 전</small></div><button type="button">열기</button></div>
+              <div class="history-item"><span class="history-thumb" style="background:linear-gradient(135deg,#8b38c8,#050c38)"></span><div><strong>마음이 머무는 온도</strong><small>바이올렛 · 어제</small></div><button type="button">열기</button></div>
+              <div class="history-item"><span class="history-thumb" style="background:linear-gradient(135deg,#ff7b58,#e02f75)"></span><div><strong>오늘을 위한 작은 선택</strong><small>오렌지 펄 · 2일 전</small></div><button type="button">열기</button></div>
+            </div>
+          </section>
         </aside>
       </div>
     </main>
@@ -167,6 +200,14 @@
     $('highlight').addEventListener('input', (e) => $('cardBody').textContent = e.target.value || '오늘의 쉼 · 오래 남는 향');
     function previewFile(input) { input.addEventListener('change', () => { const file = input.files[0]; if (!file) return; const img = document.createElement('img'); img.alt = '업로드한 이미지 미리보기'; img.src = URL.createObjectURL(file); input.parentElement.innerHTML = ''; input.parentElement.appendChild(img); }); }
     previewFile($('logo')); previewFile($('reference')); renderPalette();
+    function applyCustomColor() {
+      const a = $('colorA').value.toUpperCase(); const b = $('colorB').value.toUpperCase();
+      root.style.setProperty('--coral', a); root.style.setProperty('--purple', b); root.style.setProperty('--accent', a);
+      $('colorAValue').textContent = a; $('colorBValue').textContent = b; $('paletteName').textContent = '나만의 그라데이션';
+      document.querySelectorAll('.card').forEach((card) => { card.style.background = `linear-gradient(120deg, ${a}, ${b} 58%, #050c38)`; });
+    }
+    $('colorA').addEventListener('input', applyCustomColor); $('colorB').addEventListener('input', applyCustomColor);
+    document.querySelectorAll('.history-item button').forEach((button) => button.addEventListener('click', () => { $('toast').textContent = '히스토리의 카드뉴스를 불러왔어요.'; $('toast').classList.add('show'); setTimeout(() => $('toast').classList.remove('show'), 2200); }));
     $('generate').addEventListener('click', () => { $('greeting').innerHTML = '당신의 이야기를 담은<br />3장의 카드가 준비됐어요.'; $('toast').classList.add('show'); setTimeout(() => $('toast').classList.remove('show'), 2600); });
     $('guide').addEventListener('click', () => document.querySelector('.panel').scrollIntoView({ behavior:'smooth', block:'center' }));
   </script>
