@@ -97,5 +97,26 @@
   document.querySelector('.result-main-copy')?.setAttribute('id','mainPreview');
   document.querySelector('.result-sub-copy')?.setAttribute('id','subPreview');
 </script>
+<style>
+  .result-card{display:block;padding:0}
+  .result-card .result-brand,.result-card .result-product,.result-card .result-copy,.result-card .result-size{position:absolute;margin:0}
+  .result-card .result-brand{top:12px;left:12px;right:12px}
+  .result-card .result-product{width:31%;height:25%;right:8%;top:27%}
+  .result-card .result-copy{left:10px;right:10px;bottom:29px;min-height:0;padding:10px}
+  .result-card .result-brand:after{content:'브랜드 / 로고';display:block;margin-left:4px;padding:2px 4px;border:1px solid #ffffff66;border-radius:4px;font-size:6px;font-weight:600;letter-spacing:-.04em;opacity:.9}
+  .result-card .result-product:after{content:'제품 사진';width:auto;height:auto;aspect-ratio:auto;border-radius:4px;background:#17112fdd;color:#fff;padding:3px 4px;font-size:6px;line-height:1;position:absolute;left:4px;bottom:4px;z-index:3}
+  .result-card .result-copy h3:before{content:'메인 텍스트';display:block;color:#ffb4c4;font-size:6px;letter-spacing:.02em;margin-bottom:4px;font-weight:700}
+  .result-card .result-copy p:before{content:'서브 텍스트';display:block;color:#c9c7dc;font-size:6px;letter-spacing:.02em;margin-bottom:2px;font-weight:700}
+  .result-card:nth-child(1) .result-brand{top:12px;left:12px;right:auto}.result-card:nth-child(1) .result-product{top:27%;right:8%}.result-card:nth-child(1) .result-copy{left:10px;right:10px;bottom:29px}
+  .result-card:nth-child(2) .result-brand{top:12px;left:auto;right:12px}.result-card:nth-child(2) .result-product{top:25%;left:8%;right:auto}.result-card:nth-child(2) .result-copy{left:10px;right:10px;bottom:29px}
+  .result-card:nth-child(3) .result-brand{top:39%;left:12px;right:auto}.result-card:nth-child(3) .result-product{top:25%;right:8%}.result-card:nth-child(3) .result-copy{left:10px;right:10px;bottom:29px}
+  .result-card:nth-child(4) .result-brand{top:12px;left:12px;right:auto}.result-card:nth-child(4) .result-product{top:31%;left:8%;right:auto}.result-card:nth-child(4) .result-copy{left:10px;right:10px;bottom:29px}
+  .layout-specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:8px}.layout-spec{font-size:8px;line-height:1.45;color:#64687c;border-top:1px solid #e5e6ee;padding-top:7px}.layout-spec b{display:block;color:#171936;font-size:9px;margin-bottom:2px}.layout-spec em{font-style:normal;color:#6700a3;font-weight:700}
+  @media(max-width:900px){.layout-specs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+<script>
+  const specs=document.querySelector('.position-guide');
+  if(specs){specs.outerHTML='<div class="layout-specs"><div class="layout-spec"><b>Concept 01 · 제품 우측</b><em>브랜드/로고 상단 왼쪽</em><br>메인·서브 텍스트 하단 왼쪽<br>제품 사진 상단 오른쪽</div><div class="layout-spec"><b>Concept 02 · 제품 좌측</b><em>브랜드/로고 상단 오른쪽</em><br>메인·서브 텍스트 하단 오른쪽<br>제품 사진 상단 왼쪽</div><div class="layout-spec"><b>Concept 03 · 메시지 중심</b><em>브랜드/로고 중단 왼쪽</em><br>메인·서브 텍스트 하단 중앙<br>제품 사진 중단 오른쪽</div><div class="layout-spec"><b>Concept 04 · 라이프스타일</b><em>브랜드/로고 상단 왼쪽</em><br>메인·서브 텍스트 하단 중앙<br>제품 사진 중단 왼쪽</div></div>'}
+</script>
 </body>
 </html>
