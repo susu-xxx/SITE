@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="브랜드의 결을 담은 감성적인 카드뉴스를 만드는 Moodly Card Story Studio" />
-  <title>Moodly — Card Story Studio</title>
+  <title>프롬나우 — AI 홍보물 스튜디오</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -56,7 +56,7 @@
     .hint { color:#9a9eb0; font-size:10px; line-height:1.5; margin-top:9px; }
     .field + .field { margin-top:21px; }
     .optional { color:#a8acba; float:right; font-weight:500; }
-    .uploads { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .uploads { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
     .upload { height:132px; border:1px dashed #d5d7e4; border-radius:14px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:7px; color:#7d8299; background:#fafafd; text-align:center; transition:.2s; overflow:hidden; }
     .upload:hover { border-color:var(--pink); background:#fff6f9; }
     .upload input { display:none; }
@@ -95,6 +95,9 @@
     .live:before { content:""; display:inline-block; width:6px; height:6px; margin-right:5px; border-radius:50%; background:#32ce8b; box-shadow:0 0 0 4px #32ce8b22; }
     .cards { display:grid; gap:13px; }
     .card { position:relative; min-height:181px; overflow:hidden; padding:20px; border-radius:20px; box-shadow:0 14px 30px #10142f12; }
+    .product-shot { position:absolute; right:18px; top:40px; z-index:1; width:105px; height:105px; border-radius:18px; object-fit:cover; opacity:.94; box-shadow:0 10px 24px #0003; display:none; }
+    .has-product .product-shot { display:block; }
+    .has-product .card-copy { max-width:53%; }
     .card.one { color:#fff; background:linear-gradient(120deg,#ff5a57,#e02f75 50%,#6700a3); }
     .card.two { color:#fff; background:linear-gradient(120deg,#6700a3,#28205f 55%,#050c38); }
     .card.three { color:#fff; background:linear-gradient(120deg,#e02f75,#6700a3 60%,#050c38); }
@@ -104,18 +107,22 @@
     .card h3 { margin:0 0 10px; font-family:"Noto Sans KR",sans-serif; font-size:20px; letter-spacing:-.08em; line-height:1.4; white-space:pre-line; }
     .card p { margin:0; font-size:10px; line-height:1.6; color:#fffdfdcc; }
     .card-foot { margin-top:20px; padding-top:12px; border-top:1px solid #ffffff26; }
+    .mood-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; }
+    .mood-chip { min-height:67px; padding:9px 5px; border:1px solid var(--line); border-radius:12px; background:#fafafd; color:var(--muted); font-size:10px; font-weight:700; }
+    .mood-chip i { display:block; width:24px; height:24px; margin:0 auto 6px; border-radius:8px; background:var(--mood); }
+    .mood-chip.selected { color:var(--ink); border-color:var(--pink); box-shadow:0 0 0 3px #e02f7514; }
     .note { margin:17px 4px; color:#8b8fa4; font-size:10px; line-height:1.6; }
     .note strong { color:var(--ink); }
     .toast { position:fixed; left:50%; bottom:26px; transform:translate(-50%,20px); opacity:0; padding:12px 16px; border-radius:30px; color:#fff; background:var(--navy); font-size:11px; transition:.25s; pointer-events:none; }
     .toast.show { opacity:1; transform:translate(-50%,0); }
-    @media (max-width:1080px) { .sidebar{width:220px;flex-basis:220px}.main{padding:30px 30px 60px}.layout{grid-template-columns:1fr}.preview{position:static}.cards{grid-template-columns:repeat(3,1fr)} }
-    @media (max-width:720px) { .sidebar{display:none}.main{padding:24px 16px 48px}.topbar{margin-bottom:28px}.top-action{display:none}h1{font-size:24px}.panel{padding:20px;border-radius:17px}.cards{grid-template-columns:1fr}.card{min-height:205px}.palette{grid-template-columns:repeat(4,1fr)}.steps{font-size:10px}.step-line{width:16px} }
+    @media (max-width:1080px) { .sidebar{width:220px;flex-basis:220px}.main{padding:30px 30px 60px}.layout{grid-template-columns:1fr}.preview{position:static}.cards{grid-template-columns:repeat(2,1fr)}.mood-grid{grid-template-columns:repeat(4,1fr)} }
+    @media (max-width:720px) { .sidebar{display:none}.main{padding:24px 16px 48px}.topbar{margin-bottom:28px}.top-action{display:none}h1{font-size:24px}.panel{padding:20px;border-radius:17px}.uploads{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.card{min-height:205px}.palette{grid-template-columns:repeat(4,1fr)}.mood-grid{grid-template-columns:repeat(2,1fr)}.steps{font-size:10px}.step-line{width:16px} }
   </style>
 </head>
 <body>
   <div class="app">
     <aside class="sidebar">
-      <div class="logo"><span class="logo-mark">✦</span>moodly</div>
+      <div class="logo"><span class="logo-mark">✦</span>프롬나우</div>
       <div class="nav-title">CREATE</div>
       <button class="nav active" type="button">카드뉴스 만들기</button>
       <button class="nav" type="button">내 작업물</button>
@@ -130,7 +137,7 @@
     </aside>
     <main class="main">
       <header class="topbar">
-        <div><div class="eyebrow">CARD STORY STUDIO</div><h1 id="greeting">브랜드의 결을 담은<br />문장을 만들어보세요.</h1></div>
+        <div><div class="eyebrow">PROMNOW · AI PROMO STUDIO</div><h1 id="greeting">제품의 매력을 담은<br />홍보물을 만들어보세요.</h1></div>
         <button class="top-action" type="button" id="guide">사용 가이드&nbsp; ↗</button>
       </header>
       <div class="layout">
@@ -143,10 +150,11 @@
           </div>
           <div class="panel">
             <div class="panel-head"><div><div class="panel-kicker">VISUAL INGREDIENTS</div><h2>브랜드의 결을 더해주세요</h2></div></div>
-            <div class="uploads"><label class="upload" for="logo"><span class="plus">＋</span><strong>로고 업로드</strong><small>PNG, JPG · 최대 10MB</small><input id="logo" type="file" accept="image/*" /></label><label class="upload" for="reference"><span class="plus">＋</span><strong>레퍼런스 이미지</strong><small>분위기를 참고할 이미지</small><input id="reference" type="file" accept="image/*" /></label></div>
+            <div class="uploads"><label class="upload" for="logo"><span class="plus">＋</span><strong>로고 업로드</strong><small>PNG, JPG · 최대 10MB</small><input id="logo" type="file" accept="image/*" /></label><label class="upload" for="reference"><span class="plus">＋</span><strong>레퍼런스 이미지</strong><small>분위기를 참고할 이미지</small><input id="reference" type="file" accept="image/*" /></label><label class="upload" for="product"><span class="plus">＋</span><strong>제품 사진 업로드</strong><small>홍보할 제품을 넣어주세요</small><input id="product" type="file" accept="image/*" /></label></div>
           </div>
           <div class="panel">
-            <div class="panel-head"><div><div class="panel-kicker">FIND YOUR MOOD</div><h2>어떤 색으로 기억되길 바라나요?</h2></div><span class="required" id="paletteName">로즈 그라데이션</span></div>
+            <div class="panel-head"><div><div class="panel-kicker">CHOOSE YOUR MOOD</div><h2>어떤 분위기의 홍보물인가요?</h2></div><span class="required" id="paletteName">트렌디</span></div>
+            <div class="mood-grid" id="moods"></div>
             <div class="palette" id="palette"></div>
             <div class="custom-color">
               <div class="custom-color-head"><strong>나만의 색 조합</strong><small>원하는 색을 직접 지정해보세요</small></div>
@@ -159,11 +167,12 @@
           <button class="generate" id="generate" type="button">✦ 나만의 카드뉴스 만들기&nbsp; →</button>
         </section>
         <aside class="preview">
-          <div class="preview-head"><div><div class="panel-kicker">LIVE PREVIEW</div><h2>이렇게 완성돼요</h2></div><span class="live">LIVE</span></div>
+          <div class="preview-head"><div><div class="panel-kicker">LIVE PREVIEW · 4 OUTPUTS</div><h2>가상의 완성 결과물</h2></div><span class="live">LIVE</span></div>
           <div class="cards">
-            <article class="card one"><div class="card-top"><span>01 · 문제를 바라보는 문장</span><span>1 / 3</span></div><div class="card-copy"><h3 id="cardTitle">바쁜 마음에 잠시<br />쉼표를 놓아주세요.</h3><p>하루의 틈에 조용히 스며드는<br />작은 향 하나를 준비했어요.</p></div><div class="card-foot"><span>moodly</span><span>mood for today · 01</span></div></article>
-            <article class="card two"><div class="card-top"><span>02 · 해결을 건네는 문장</span><span>2 / 3</span></div><div class="card-copy"><h3>당신의 일상에<br />조금 더 다정한 온도</h3><p id="cardBody">오늘의 쉼 · 오래 남는 향</p></div><div class="card-foot"><span>moodly</span><span>mood for today · 02</span></div></article>
-            <article class="card three"><div class="card-top"><span>03 · 기억에 남는 문장</span><span>3 / 3</span></div><div class="card-copy"><h3>마음이 머무는 곳에<br />좋은 하루가 피어나길</h3><p>당신을 위한 작은 선택이 시작돼요.</p></div><div class="card-foot"><span>moodly</span><span>mood for today · 03</span></div></article>
+            <article class="card one"><img class="product-shot" alt="제품 미리보기" /><div class="card-top"><span>01 · 제품 히어로</span><span>1 / 4</span></div><div class="card-copy"><h3 id="cardTitle">시선을 멈추게 하는<br />제품의 첫인상</h3><p>핵심 장점을 한눈에 전달하는<br />트렌디한 제품 소개.</p></div><div class="card-foot"><span>프롬나우</span><span>hero visual · 01</span></div></article>
+            <article class="card two"><img class="product-shot" alt="제품 미리보기" /><div class="card-top"><span>02 · 기능 포인트</span><span>2 / 4</span></div><div class="card-copy"><h3>좋은 제품은<br />이유가 분명하니까</h3><p id="cardBody">고객이 궁금해하는 포인트를<br />짧고 선명하게 보여줘요.</p></div><div class="card-foot"><span>프롬나우</span><span>feature · 02</span></div></article>
+            <article class="card three"><img class="product-shot" alt="제품 미리보기" /><div class="card-top"><span>03 · 사용 장면</span><span>3 / 4</span></div><div class="card-copy"><h3>당신의 하루에<br />자연스럽게 스며드는 방법</h3><p>실제 사용 순간을 상상하게 하는<br />문장과 이미지.</p></div><div class="card-foot"><span>프롬나우</span><span>lifestyle · 03</span></div></article>
+            <article class="card one"><img class="product-shot" alt="제품 미리보기" /><div class="card-top"><span>04 · 구매를 부르는 한 줄</span><span>4 / 4</span></div><div class="card-copy"><h3>오늘 필요한 선택,<br />지금 만나보세요.</h3><p>광고처럼 과하지 않게<br />다음 행동을 자연스럽게 안내해요.</p></div><div class="card-foot"><span>프롬나우</span><span>call to action · 04</span></div></article>
           </div>
           <div class="note">✦ <strong>SEO · AEO friendly</strong><br />사람이 검색하고, 오래 기억하는 문장으로 다듬어드려요.</div>
           <section class="history-panel" id="historyPanel">
@@ -210,6 +219,36 @@
     document.querySelectorAll('.history-item button').forEach((button) => button.addEventListener('click', () => { $('toast').textContent = '히스토리의 카드뉴스를 불러왔어요.'; $('toast').classList.add('show'); setTimeout(() => $('toast').classList.remove('show'), 2200); }));
     $('generate').addEventListener('click', () => { $('greeting').innerHTML = '당신의 이야기를 담은<br />3장의 카드가 준비됐어요.'; $('toast').classList.add('show'); setTimeout(() => $('toast').classList.remove('show'), 2600); });
     $('guide').addEventListener('click', () => document.querySelector('.panel').scrollIntoView({ behavior:'smooth', block:'center' }));
+  </script>
+  <script>
+    const moodOptions = [
+      ['트렌디','#ff5a57','#e02f75'], ['미니멀','#20264d','#eef0f7'], ['프리미엄','#c4934d','#17120e'],
+      ['스포티','#3e83ff','#071b4a'], ['내추럴','#5c8e68','#eaf5e8'], ['팝 컬러','#ff8a3d','#6d2cff'], ['클린','#13a69b','#e9fbf8']
+    ];
+    const moodRoot = document.getElementById('moods');
+    const oldPalette = document.getElementById('palette');
+    if (oldPalette) oldPalette.style.display = 'none';
+    function renderMoods(active = 0) {
+      moodRoot.innerHTML = moodOptions.map((m, i) => `<button class="mood-chip ${i === active ? 'selected' : ''}" type="button" data-mood="${i}" style="--mood:linear-gradient(135deg,${m[1]},${m[2]})"><i></i>${m[0]}</button>`).join('');
+      moodRoot.querySelectorAll('.mood-chip').forEach((button) => button.addEventListener('click', () => {
+        const i = Number(button.dataset.mood); const m = moodOptions[i];
+        moodRoot.querySelectorAll('.mood-chip').forEach((b) => b.classList.remove('selected')); button.classList.add('selected');
+        document.documentElement.style.setProperty('--accent', m[1]); document.documentElement.style.setProperty('--coral', m[1]); document.documentElement.style.setProperty('--purple', m[2]);
+        document.getElementById('paletteName').textContent = m[0];
+        document.querySelectorAll('.card').forEach((card) => card.style.background = `linear-gradient(120deg,${m[1]},${m[2]} 58%,#050c38)`);
+      }));
+    }
+    renderMoods();
+    const productInput = document.getElementById('product');
+    if (productInput) productInput.addEventListener('change', () => {
+      const file = productInput.files[0]; if (!file) return; const url = URL.createObjectURL(file);
+      document.querySelector('.cards').classList.add('has-product'); document.querySelectorAll('.product-shot').forEach((img) => { img.src = url; });
+    });
+    document.getElementById('generate').addEventListener('click', () => {
+      document.getElementById('greeting').innerHTML = '제품을 돋보이게 하는<br />4개의 홍보물이 준비됐어요.';
+      document.getElementById('toast').textContent = '가상 홍보물 4개를 만들었어요.'; document.getElementById('toast').classList.add('show');
+      setTimeout(() => document.getElementById('toast').classList.remove('show'), 2600);
+    });
   </script>
 </body>
 </html>
