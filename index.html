@@ -183,5 +183,26 @@
   document.querySelectorAll('.result-card').forEach(card=>{if(!card.querySelector('.result-cta')){const c=document.createElement('div');c.className='result-cta';c.textContent='자세히 보기';card.appendChild(c)}});
 })();
 </script>
+<style>
+  /* Instagram feed preview: show all four 9:16 concepts together on desktop. */
+  @media(min-width:921px){
+    .result-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .result-card{min-height:620px}
+    .result-card .result-copy h3{font-size:clamp(15px,1.5vw,24px)}
+    .result-card .result-copy p{font-size:clamp(8px,.8vw,13px)}
+  }
+</style>
+<script>
+(()=>{
+  const replaceText=(selector,text)=>document.querySelectorAll(selector).forEach(el=>el.textContent=text);
+  replaceText('.side-note','Turn product information into a visual story.\n\n9:16 vertical ad layout studio');
+  replaceText('.results-heading > span:last-child','9:16 FORMAT');
+  replaceText('.result-size','9:16 · INSTAGRAM FORMAT');
+  replaceText('.grid-mark','9:16\nHTML POSITION GUIDE');
+  document.querySelectorAll('.guide-note').forEach(el=>el.textContent=el.textContent.replace(/1080\s*[×x]\s*1920\s*·?\s*/g,'').trim()||'9:16 FORMAT');
+  const guideTitle=document.querySelector('.guide-grid')?.previousElementSibling?.querySelector('h2');
+  if(guideTitle) guideTitle.textContent='9:16 레이아웃 가이드 4개';
+})();
+</script>
 </body>
 </html>
